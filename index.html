@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapTalk - 英語スピーキング課題サポート</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; }
+        .font-outfit { font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <!-- Stylish Background Blobs (メッシュグラデーション風の背景装飾) -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-rose-400/20 blur-[100px] mix-blend-multiply"></div>
+        <div class="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-purple-400/20 blur-[120px] mix-blend-multiply"></div>
+        <div class="absolute bottom-[-20%] left-[20%] w-[600px] h-[600px] rounded-full bg-indigo-400/20 blur-[120px] mix-blend-multiply"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white/60 backdrop-blur-xl border-b border-white/50 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                </div>
+                <h1 class="text-2xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-rose-500 font-outfit pb-0.5">SnapTalk</h1>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-white/80 border border-slate-200 flex items-center justify-center text-slate-500 shadow-sm hover:bg-white transition-colors cursor-pointer">
+                <i class="fa-solid fa-user text-sm"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:grid-flow-col gap-6 relative z-10">
+
+        <!-- Step 1: Scan -->
+        <section class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-6 shrink-0">
+                <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">1</span>
+                <h2 class="font-bold text-lg text-slate-800">英作文のスキャン <span class="text-xs text-slate-400 font-bold ml-2 uppercase tracking-wider">Scan</span></h2>
+            </div>
+            
+            <!-- アイキャッチグラフィック -->
+            <div class="flex-1 flex items-center justify-center min-h-[140px] pb-4">
+                <div class="relative">
+                    <!-- 背景の装飾円 -->
+                    <div class="w-32 h-32 bg-indigo-50 rounded-full flex items-center justify-center relative">
+                        <div class="absolute inset-0 bg-indigo-100/50 rounded-full animate-pulse"></div>
+                        <!-- メインアイコン -->
+                        <i class="fa-solid fa-camera-retro text-[56px] text-indigo-500 relative z-10 drop-shadow-sm"></i>
+                    </div>
+                    <!-- サブアイコン（書類とスキャン枠） -->
+                    <div class="absolute -top-2 -left-4 bg-white p-2.5 rounded-xl shadow-sm border border-slate-100 rotate-[-12deg]">
+                        <i class="fa-regular fa-file-lines text-2xl text-slate-400"></i>
+                    </div>
+                    <div class="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-sm border border-slate-100">
+                        <i class="fa-solid fa-crop-simple text-xl text-indigo-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-3 mt-auto shrink-0">
+                <!-- PDFダウンロードボタン -->
+                <button class="w-full h-14 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-2xl font-bold text-sm border-2 border-slate-200 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-file-pdf text-rose-500 text-lg"></i>
+                    解答用紙（PDF）をダウンロード
+                </button>
+                <!-- カメラ＆ファイル -->
+                <div class="flex gap-3">
+                    <button onclick="startCamera()" class="flex-1 h-14 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-bold text-sm shadow-md shadow-indigo-200 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-camera text-lg"></i> カメラ起動
+                    </button>
+                    <label class="flex-1 h-14 bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-image text-slate-400 text-lg"></i> ファイル
+                        <input type="file" class="hidden" accept="image/*" onchange="handleFileUpload(event)">
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: AI Correction -->
+        <section class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-4 shrink-0">
+                <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">2</span>
+                <h2 class="font-bold text-lg text-slate-800">AI添削・編集 <span class="text-xs text-slate-400 font-bold ml-2 uppercase tracking-wider">Edit</span></h2>
+            </div>
+            
+            <div class="relative flex-1 flex flex-col mb-4 min-h-[200px] lg:min-h-0">
+                <textarea id="scanResultArea" class="w-full h-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-700 leading-relaxed resize-none focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-400 transition-all text-[15px]" placeholder="スキャンされた英文が表示されます。直接入力して編集することも可能です。"></textarea>
+            </div>
+
+            <div class="mt-auto shrink-0">
+                <button id="aiCorrectBtn" onclick="applyAIAssistance()" class="w-full h-14 bg-[#3db182] hover:bg-[#349e73] text-white rounded-2xl font-bold text-base shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> 
+                    <span>AIで表現を修正する</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 3: Practice -->
+        <section class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-6 shrink-0">
+                <span class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold">3</span>
+                <h2 class="font-bold text-lg text-slate-800">ネイティブ音声で練習 <span class="text-xs text-slate-400 font-bold ml-2 uppercase tracking-wider">Listen</span></h2>
+            </div>
+
+            <!-- アイキャッチグラフィック -->
+            <div class="flex-1 flex items-center justify-center min-h-[140px] pb-4">
+                <div class="relative">
+                    <!-- 背景の装飾円 -->
+                    <div class="w-32 h-32 bg-purple-50 rounded-full flex items-center justify-center relative">
+                        <div class="absolute inset-0 bg-purple-100/50 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                        <!-- メインアイコン -->
+                        <i class="fa-solid fa-headphones-simple text-[64px] text-purple-500 relative z-10 drop-shadow-sm"></i>
+                    </div>
+                    <!-- サブアイコン（音符と波形） -->
+                    <div class="absolute -top-4 -right-2 bg-white p-2 rounded-full shadow-sm border border-slate-100 rotate-[15deg]">
+                        <i class="fa-solid fa-music text-xl text-purple-400"></i>
+                    </div>
+                    <div class="absolute bottom-0 -left-6 bg-white py-1.5 px-3 rounded-xl shadow-sm border border-slate-100">
+                        <i class="fa-solid fa-waveform text-xl text-slate-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accent -->
+            <div class="mb-6 shrink-0">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
+                    <i class="fa-solid fa-earth-americas text-purple-400"></i> Accent
+                </div>
+                <div class="flex gap-3">
+                    <button id="accentBtnUS" onclick="setAccent('US')" class="flex-1 py-3.5 rounded-2xl font-bold text-sm border-2 border-purple-500 text-purple-700 bg-white shadow-sm transition-all flex items-center justify-center gap-2">
+                        <span class="text-xs font-black">US</span> アメリカ英語
+                    </button>
+                    <button id="accentBtnGB" onclick="setAccent('GB')" class="flex-1 py-3.5 rounded-2xl font-bold text-sm border-2 border-transparent bg-slate-50 text-slate-500 hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
+                        <span class="text-xs font-black opacity-50">GB</span> イギリス英語
+                    </button>
+                </div>
+            </div>
+
+            <!-- Control -->
+            <div class="mt-auto shrink-0">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-500 mb-3 uppercase tracking-wider">
+                    <i class="fa-solid fa-sliders text-purple-400"></i> Control
+                </div>
+                <div class="flex gap-3">
+                    <button id="playTtsBtn" onclick="playTTS()" class="flex-1 h-14 bg-[#a062fa] hover:bg-[#8b4eed] text-white rounded-2xl font-bold text-base shadow-lg shadow-purple-200 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> 再生する
+                    </button>
+                    <button onclick="pauseTTS()" class="w-16 h-14 bg-[#f3d9b1] hover:bg-[#eacb9d] text-white rounded-2xl flex items-center justify-center transition-colors shadow-sm">
+                        <i class="fa-solid fa-pause text-xl"></i>
+                    </button>
+                    <button onclick="stopTTS()" class="w-16 h-14 bg-slate-300 hover:bg-slate-400 text-white rounded-2xl flex items-center justify-center transition-colors shadow-sm">
+                        <i class="fa-solid fa-stop text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4: Record & Submit -->
+        <section class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-4 shrink-0">
+                <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold">4</span>
+                <h2 class="font-bold text-lg text-slate-800">スピーチを記録・提出 <span class="text-xs text-slate-400 font-bold ml-2 uppercase tracking-wider">Record</span></h2>
+            </div>
+
+            <div class="bg-slate-900 rounded-2xl flex-1 relative overflow-hidden mb-6 shadow-inner flex items-center justify-center border-4 border-slate-800 min-h-[150px] lg:min-h-0">
+                <!-- プレースホルダー -->
+                <div id="videoPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 gap-3 z-10">
+                    <div onclick="startPreview()" class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center cursor-pointer hover:bg-slate-700 transition-colors">
+                        <i class="fa-solid fa-video text-2xl text-slate-300"></i>
+                    </div>
+                    <span onclick="startPreview()" class="text-sm font-medium cursor-pointer hover:text-slate-300 transition-colors">カメラを許可してプレビューを表示</span>
+                </div>
+                <!-- ライブカメラ映像 -->
+                <video id="liveVideo" class="w-full h-full object-cover hidden z-20" autoplay muted playsinline></video>
+                <!-- 録画した映像の再生 -->
+                <video id="recordedVideo" class="w-full h-full object-cover hidden z-30" controls playsinline></video>
+                <!-- 録画中のインジケーター -->
+                <div id="recordingIndicator" class="absolute top-4 right-4 z-40 hidden items-center gap-2 bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                    <div class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-bold text-white tracking-wider">REC</span>
+                </div>
+            </div>
+
+            <div class="mt-auto shrink-0 flex gap-3">
+                <button id="recordBtn" onclick="toggleRecording()" class="w-full h-14 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-rose-200 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-video"></i> <span id="recordBtnText">動画録画を開始</span>
+                </button>
+                <button id="resetRecordBtn" onclick="resetRecordingState()" class="hidden w-14 h-14 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-2xl font-bold text-base transition-all items-center justify-center shrink-0 border-2 border-slate-200">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- トースト通知 -->
+    <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- カメラモーダル -->
+    <div id="cameraModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[110] hidden flex-col items-center justify-center p-4">
+        <div class="bg-white rounded-3xl overflow-hidden w-full max-w-lg shadow-2xl flex flex-col">
+            <div class="px-4 py-3 bg-slate-50 border-b border-slate-100 flex justify-between items-center">
+                <h3 class="font-bold text-slate-700">カメラで英作文を撮影</h3>
+                <button onclick="closeCamera()" class="text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="relative bg-black flex items-center justify-center min-h-[300px]">
+                <video id="cameraVideo" class="w-full h-auto max-h-[60vh] object-contain" autoplay muted playsinline></video>
+            </div>
+            <div class="p-4 bg-white flex justify-center border-t border-slate-100">
+                <button onclick="captureImage()" class="w-16 h-16 rounded-full border-4 border-indigo-500 bg-indigo-100 flex items-center justify-center hover:bg-indigo-200 transition-colors shadow-inner">
+                    <div class="w-12 h-12 bg-indigo-500 rounded-full shadow-md"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI添削確認モーダル (画像のデザインに復元) -->
+    <div id="aiCorrectionModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] hidden flex-col items-center justify-center p-4 lg:p-8">
+        <div class="bg-slate-50 rounded-3xl w-full max-w-6xl h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
+            
+            <!-- ヘッダー -->
+            <div class="px-6 py-4 bg-emerald-50/80 border-b border-emerald-100 flex justify-between items-center shrink-0">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-600 text-xl"></i>
+                    <h3 class="font-bold text-emerald-900 text-lg">AI添削の確認と適用</h3>
+                </div>
+                <button onclick="closeCorrectionModal()" class="w-10 h-10 rounded-full bg-emerald-100/50 hover:bg-emerald-200 text-emerald-700 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- 説明文 -->
+            <div class="px-6 py-3 bg-white border-b border-slate-200 text-[13px] font-medium text-slate-600 flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-circle-info text-emerald-500"></i>
+                AIからの修正提案を1つずつ確認し、「承認」または「拒否」を選択してください。
+            </div>
+
+            <!-- メインコンテンツ -->
+            <div class="flex-1 overflow-hidden p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- 左：推敲プレビュー -->
+                <div class="flex flex-col bg-white border border-slate-200 rounded-2xl shadow-sm h-full overflow-hidden">
+                    <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between shrink-0">
+                        <h4 class="font-bold text-slate-700 flex items-center gap-2">
+                            <i class="fa-regular fa-file-lines text-slate-400"></i> 推敲プレビュー
+                        </h4>
+                        <span id="progressText" class="text-xs px-3 py-1 bg-slate-100 text-slate-500 rounded-full font-bold">未確認: 0件</span>
+                    </div>
+                    <div id="previewArea" class="p-6 overflow-y-auto flex-1 text-[17px] leading-loose text-slate-800 font-medium">
+                        <!-- JSで生成 -->
+                    </div>
+                </div>
+
+                <!-- 右：提案リスト -->
+                <div class="flex flex-col h-full overflow-hidden">
+                    <div class="px-2 py-2 flex items-center justify-between shrink-0 mb-2">
+                        <h4 class="font-bold text-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-slate-400"></i> 提案リスト
+                        </h4>
+                        <div class="flex gap-2">
+                            <button onclick="acceptAllProposals()" class="text-xs px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg hover:bg-emerald-100 font-bold transition-colors">すべて承認</button>
+                            <button onclick="rejectAllProposals()" class="text-xs px-3 py-1.5 bg-rose-50 text-rose-600 border border-rose-200 rounded-lg hover:bg-rose-100 font-bold transition-colors">すべて拒否</button>
+                        </div>
+                    </div>
+                    <div id="proposalsArea" class="overflow-y-auto flex-1 flex flex-col gap-4 pr-2 pb-2">
+                        <!-- JSで生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- フッター -->
+            <div class="p-6 bg-white border-t border-slate-200 flex gap-4 shrink-0">
+                <button onclick="closeCorrectionModal()" class="w-40 py-4 rounded-2xl bg-white border-2 border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors">
+                    キャンセル
+                </button>
+                <button onclick="acceptCorrection()" class="flex-1 py-4 rounded-2xl bg-[#3db182] text-white font-bold hover:bg-[#349e73] transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-200 text-lg">
+                    <i class="fa-solid fa-check"></i> この内容で本文を更新する
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+
+        // --- 権限許可によるページリロード対策 (URLハッシュを利用した確実な自動再開) ---
+        // サンドボックス環境ではlocalStorageが制限されることがあるため、URLパラメータ(ハッシュ)で状態を保持します
+        function setPendingCameraAction(action) {
+            window.location.hash = 'resume_' + action;
+        }
+
+        function clearPendingCameraAction() {
+            if (window.location.hash.startsWith('#resume_')) {
+                try {
+                    // 通常の環境用
+                    history.replaceState(null, null, window.location.pathname + window.location.search);
+                } catch (e) {
+                    // プレビュー環境 (blob: URL) などで SecurityError が出る場合の回避策
+                    window.location.hash = '';
+                }
+            }
+        }
+
+        window.addEventListener('load', () => {
+            const hash = window.location.hash;
+            if (hash.startsWith('#resume_')) {
+                const action = hash.replace('#resume_', '');
+                clearPendingCameraAction();
+                
+                showToast('権限を更新しました。機能を自動で再開します...', 'info');
+                
+                // 完全に画面が描画されるのを少し待ってから実行
+                setTimeout(() => {
+                    if (action === 'startCamera') startCamera(true);
+                    else if (action === 'startPreview') startPreview(true);
+                    else if (action === 'toggleRecording') toggleRecording(true);
+                }, 800);
+            }
+        });
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-[#3db182]',
+                error: 'bg-rose-500',
+                info: 'bg-indigo-500'
+            };
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-exclamation',
+                info: 'fa-circle-info'
+            };
+
+            toast.className = `${colors[type]} text-white px-5 py-3 rounded-2xl shadow-lg font-bold text-sm flex items-center gap-3`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type]} text-lg"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        async function fetchWithRetry(url, options, retries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response;
+                } catch (e) {
+                    if (i === retries - 1) throw e;
+                    await new Promise(res => setTimeout(res, delays[i]));
+                }
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+
+        // --- カメラ & OCR (画像認識) 機能 ---
+        let cameraStream = null;
+
+        async function startCamera(isAutoResume = false) {
+            try {
+                if (!isAutoResume) setPendingCameraAction('startCamera');
+                // 背面カメラを優先して起動
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                clearPendingCameraAction();
+                
+                const video = document.getElementById('cameraVideo');
+                video.srcObject = cameraStream;
+                video.play().catch(e => console.error("Video play error:", e)); // 自動再生ポリシー対策
+                
+                document.getElementById('cameraModal').classList.remove('hidden');
+                document.getElementById('cameraModal').classList.add('flex');
+            } catch (err) {
+                clearPendingCameraAction();
+                console.error(err);
+                if (!isAutoResume) {
+                    showToast('カメラへのアクセスが拒否されたか、利用できません。', 'error');
+                } else {
+                    showToast('自動再開に失敗しました。もう一度ボタンを押してください。', 'error');
+                }
+            }
+        }
+
+        function closeCamera() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
+            }
+            document.getElementById('cameraModal').classList.add('hidden');
+            document.getElementById('cameraModal').classList.remove('flex');
+        }
+
+        function captureImage() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // JPEGとしてBase64エンコード
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            closeCamera();
+            
+            const base64Data = dataUrl.split(',')[1];
+            performOCR(base64Data, 'image/jpeg');
+        }
+
+        async function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const dataUrl = event.target.result;
+                const mimeType = file.type;
+                const base64Data = dataUrl.split(',')[1];
+                performOCR(base64Data, mimeType);
+            };
+            reader.readAsDataURL(file);
+            e.target.value = ''; 
+        }
+
+        async function performOCR(base64Data, mimeType) {
+            showToast('画像を解析中...', 'info');
+            const textarea = document.getElementById('scanResultArea');
+            textarea.value = "画像を解析しています。しばらくお待ちください...";
+            
+            try {
+                // テンプレートの文字を除外し、本文のみを抽出するようにプロンプトを強化
+                const prompt = `Extract ONLY the student's handwritten or typed English essay/sentences from this image.
+CRITICAL INSTRUCTIONS:
+- DO NOT include template labels such as "Title:", "Grade:", "Class:", "Student No.:", or "Name:".
+- DO NOT include any text written next to these labels (like the student's actual name, grade, etc.).
+- DO NOT include word count numbers in parentheses like (10), (20), (30), etc.
+- Output ONLY the extracted essay text, with no additional comments, markdown formatting, or explanations.
+- Preserve the original line breaks if possible.`;
+                
+                const payload = {
+                    contents: [{
+                        role: "user",
+                        parts: [
+                            { text: prompt },
+                            { inlineData: { mimeType: mimeType, data: base64Data } }
+                        ]
+                    }]
+                };
+
+                const response = await fetchWithRetry(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                const extractedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                
+                if (extractedText) {
+                    textarea.value = extractedText.trim();
+                    showToast('テキストの抽出が完了しました', 'success');
+                } else {
+                    textarea.value = "";
+                    showToast('テキストを抽出できませんでした。', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                textarea.value = "";
+                showToast('OCR処理中にエラーが発生しました。', 'error');
+            }
+        }
+
+        // --- 録画機能 (Web MediaRecorder API) ---
+        let mediaRecorder;
+        let recordedChunks = [];
+        let isRecording = false;
+        let recordingStream = null;
+        let recordedUrl = null;
+        let currentMimeType = 'video/webm'; // デフォルト
+
+        async function startPreview(isAutoResume = false) {
+            if (recordingStream) return; // 既に取得済みなら何もしない
+            
+            try {
+                if (!isAutoResume) setPendingCameraAction('startPreview');
+                recordingStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                clearPendingCameraAction();
+                
+                const liveVideo = document.getElementById('liveVideo');
+                const placeholder = document.getElementById('videoPlaceholder');
+                
+                liveVideo.srcObject = recordingStream;
+                liveVideo.play().catch(e => console.error("Video play error:", e));
+                
+                liveVideo.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                showToast('カメラのプレビューを開始しました', 'success');
+            } catch (err) {
+                clearPendingCameraAction();
+                console.error(err);
+                if (!isAutoResume) {
+                    showToast('カメラとマイクへのアクセスが拒否されました。', 'error');
+                }
+            }
+        }
+
+        async function toggleRecording(isAutoResume = false) {
+            const btn = document.getElementById('recordBtn');
+            const btnText = document.getElementById('recordBtnText');
+            const icon = btn.querySelector('i');
+            const liveVideo = document.getElementById('liveVideo');
+            const recordedVideo = document.getElementById('recordedVideo');
+            const placeholder = document.getElementById('videoPlaceholder');
+            const indicator = document.getElementById('recordingIndicator');
+            const resetBtn = document.getElementById('resetRecordBtn');
+
+            // 録画完了後のダウンロード（提出）状態の場合
+            if (recordedUrl && !isRecording) {
+                const a = document.createElement('a');
+                a.href = recordedUrl;
+                // 保存形式を MP4 に指定
+                a.download = 'snaptalk_speech.mp4';
+                a.click();
+                showToast('動画を保存しました', 'success');
+                return;
+            }
+
+            if (!isRecording) {
+                // 録画開始
+                try {
+                    // プレビュー等でまだストリームを取得していない場合のみ取得
+                    if (!recordingStream) {
+                        if (!isAutoResume) setPendingCameraAction('toggleRecording');
+                        recordingStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                        clearPendingCameraAction();
+                        
+                        liveVideo.srcObject = recordingStream;
+                        liveVideo.play().catch(e => console.error("Video play error:", e));
+                    }
+                    
+                    liveVideo.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                    indicator.classList.remove('hidden');
+                    indicator.classList.add('flex');
+
+                    // MP4を優先的にサポートしているか確認
+                    currentMimeType = 'video/webm';
+                    if (MediaRecorder.isTypeSupported('video/mp4')) {
+                        currentMimeType = 'video/mp4';
+                    }
+                    
+                    mediaRecorder = new MediaRecorder(recordingStream, { mimeType: currentMimeType });
+                    recordedChunks = [];
+
+                    mediaRecorder.ondataavailable = function(e) {
+                        if (e.data.size > 0) {
+                            recordedChunks.push(e.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = function() {
+                        const blob = new Blob(recordedChunks, { type: currentMimeType });
+                        recordedUrl = URL.createObjectURL(blob);
+                        
+                        liveVideo.classList.add('hidden');
+                        recordedVideo.src = recordedUrl;
+                        recordedVideo.classList.remove('hidden');
+                        
+                        // カメラとマイクを解放
+                        if (recordingStream) {
+                            recordingStream.getTracks().forEach(track => track.stop());
+                            recordingStream = null;
+                        }
+                        
+                        // UIを提出（ダウンロード）状態に更新
+                        btn.className = "flex-1 h-14 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2";
+                        icon.className = "fa-solid fa-cloud-arrow-up";
+                        btnText.innerText = "動画を保存（提出）";
+                        resetBtn.classList.remove('hidden');
+                        resetBtn.classList.add('flex');
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    
+                    // UIを録画中状態に更新
+                    btn.className = "w-full h-14 bg-slate-800 hover:bg-slate-700 text-white rounded-2xl font-bold text-base shadow-lg shadow-slate-200 transition-all flex items-center justify-center gap-2";
+                    icon.className = "fa-solid fa-stop";
+                    btnText.innerText = "録画を停止する";
+                    showToast('録画を開始しました', 'info');
+
+                } catch (err) {
+                    clearPendingCameraAction();
+                    console.error(err);
+                    showToast('カメラとマイクへのアクセスが拒否されました。', 'error');
+                }
+            } else {
+                // 録画停止
+                mediaRecorder.stop();
+                isRecording = false;
+                indicator.classList.add('hidden');
+                indicator.classList.remove('flex');
+                showToast('録画を完了しました', 'success');
+            }
+        }
+
+        function resetRecordingState() {
+            recordedUrl = null;
+            if (recordingStream) {
+                recordingStream.getTracks().forEach(track => track.stop());
+                recordingStream = null;
+            }
+            const liveVideo = document.getElementById('liveVideo');
+            const recordedVideo = document.getElementById('recordedVideo');
+            const placeholder = document.getElementById('videoPlaceholder');
+            const btn = document.getElementById('recordBtn');
+            const btnText = document.getElementById('recordBtnText');
+            const resetBtn = document.getElementById('resetRecordBtn');
+            
+            liveVideo.classList.add('hidden');
+            recordedVideo.classList.add('hidden');
+            recordedVideo.src = '';
+            placeholder.classList.remove('hidden');
+            
+            // ボタンを初期状態に戻す
+            btn.className = "w-full h-14 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-rose-200 transition-all flex items-center justify-center gap-2";
+            btn.innerHTML = `<i class="fa-solid fa-video"></i> <span id="recordBtnText">動画録画を開始</span>`;
+            resetBtn.classList.add('hidden');
+            resetBtn.classList.remove('flex');
+        }
+
+        // --- AI添削機能 (文全体単位のハイライト、全体講評:英語、理由:日本語) ---
+        let currentSegments = [];
+
+        async function applyAIAssistance() {
+            const textarea = document.getElementById('scanResultArea');
+            const originalText = textarea.value.trim();
+            
+            if (!originalText) {
+                showToast('英文を入力してください。', 'error');
+                return;
+            }
+            
+            const btn = document.getElementById('aiCorrectBtn');
+            const span = btn.querySelector('span');
+            const icon = btn.querySelector('i');
+            
+            span.innerText = ' AIが添削中...';
+            icon.className = 'fa-solid fa-spinner fa-spin';
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+            
+            try {
+                // 指示：講評は英語、理由は日本語、文単位で分割
+                const systemPrompt = `You are an English teacher. Evaluate the provided English text and correct grammatical, spelling, and punctuation errors.
+Please analyze the text sentence by sentence.
+- If the sentence is correct, set 'is_changed' to false, put the unchanged text in 'text'.
+- If the sentence has errors, set 'is_changed' to true, put the corrected text in 'text', the original incorrect text in 'original_text', and a brief explanation in Japanese in 'reason'.
+Provide an 'overall_feedback' in English at the end.`;
+
+                const payload = {
+                    contents: [{
+                        parts: [{ text: originalText }]
+                    }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                segments: {
+                                    type: "ARRAY",
+                                    items: {
+                                        type: "OBJECT",
+                                        properties: {
+                                            text: { type: "STRING" },
+                                            is_changed: { type: "BOOLEAN" },
+                                            original_text: { type: "STRING" },
+                                            reason: { type: "STRING" }
+                                        },
+                                        required: ["text", "is_changed"]
+                                    }
+                                },
+                                overall_feedback: { type: "STRING" }
+                            },
+                            required: ["segments"]
+                        }
+                    }
+                };
+
+                const response = await fetchWithRetry(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                const jsonStr = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+                const result = JSON.parse(jsonStr);
+                
+                if (result.segments && result.segments.length > 0) {
+                    currentSegments = result.segments.map((seg, index) => ({
+                        ...seg,
+                        id: `seg_${index}`,
+                        status: seg.is_changed ? 'pending' : 'none'
+                    }));
+                    
+                    showCorrectionModal(result.overall_feedback);
+                } else {
+                    showToast('補正結果を取得できませんでした。', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('AIの通信に失敗しました。', 'error');
+            } finally {
+                span.innerText = 'AIで表現を修正する';
+                icon.className = 'fa-solid fa-wand-magic-sparkles';
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
+        }
+
+        function showCorrectionModal(overallFeedback) {
+            window.currentOverallFeedback = overallFeedback;
+            renderCorrectionUI();
+            
+            const modal = document.getElementById('aiCorrectionModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function renderCorrectionUI() {
+            const previewArea = document.getElementById('previewArea');
+            const proposalsArea = document.getElementById('proposalsArea');
+            
+            let previewHTML = '';
+            proposalsArea.innerHTML = '';
+
+            // 全体の講評 (画像の青っぽい背景)
+            if (window.currentOverallFeedback) {
+                proposalsArea.innerHTML += `
+                    <div class="bg-[#f0f4ff] border border-indigo-100 rounded-2xl p-5 mb-2">
+                        <div class="font-bold text-sm text-indigo-700 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb"></i> 全体の講評
+                        </div>
+                        <p class="text-[15px] text-slate-700 leading-relaxed">${escapeHTML(window.currentOverallFeedback)}</p>
+                    </div>
+                `;
+            }
+
+            const pendingCount = currentSegments.filter(s => s.is_changed && s.status === 'pending').length;
+            document.getElementById('progressText').innerText = `未確認: ${pendingCount}件`;
+
+            currentSegments.forEach(seg => {
+                // プレビュー側
+                if (!seg.is_changed) {
+                    previewHTML += `<span>${escapeHTML(seg.text)}</span> `;
+                } else {
+                    if (seg.status === 'pending') {
+                        previewHTML += `<span id="prev_${seg.id}" class="bg-emerald-50 text-[#3db182] px-1 rounded cursor-pointer transition-colors hover:bg-emerald-100" onclick="scrollToProposal('${seg.id}')">${escapeHTML(seg.text)}</span> `;
+                    } else if (seg.status === 'accepted') {
+                        previewHTML += `<span class="text-[#3db182] px-1">${escapeHTML(seg.text)}</span> `;
+                    } else if (seg.status === 'rejected') {
+                        previewHTML += `<span class="px-1">${escapeHTML(seg.original_text || '')}</span> `;
+                    }
+                }
+
+                // 提案リスト側
+                if (seg.is_changed) {
+                    const isResolved = seg.status !== 'pending';
+                    const opacityClass = isResolved ? 'opacity-60' : 'opacity-100';
+                    
+                    let textChangeHtml = '';
+                    if (!seg.text) {
+                        textChangeHtml = `<div class="text-[#e27c8d] line-through decoration-[#e27c8d]/50">${escapeHTML(seg.original_text)}</div>`;
+                    } else if (!seg.original_text) {
+                        textChangeHtml = `<div class="text-[#41a87b] font-bold">${escapeHTML(seg.text)}</div>`;
+                    } else {
+                        textChangeHtml = `
+                            <div class="flex flex-col gap-1.5 text-[15px]">
+                                <div class="text-[#e27c8d] line-through decoration-[#e27c8d]/50">${escapeHTML(seg.original_text)} &rarr;</div>
+                                <div class="text-[#41a87b] font-bold">${escapeHTML(seg.text)}</div>
+                            </div>
+                        `;
+                    }
+
+                    // ボタンのスタイル判定 (画像に合わせる)
+                    let btnAcceptClass, btnRejectClass;
+                    if (seg.status === 'accepted') {
+                        btnAcceptClass = 'bg-[#41a87b] text-white shadow-inner';
+                        btnRejectClass = 'bg-rose-50 text-rose-400 border border-rose-200 hover:bg-rose-100';
+                    } else if (seg.status === 'rejected') {
+                        btnAcceptClass = 'bg-[#e6f4ed] text-[#41a87b] border border-[#a1d9c1] hover:bg-[#d0ebd0]';
+                        btnRejectClass = 'bg-[#eb7a8f] text-white shadow-inner';
+                    } else {
+                        // 未選択
+                        btnAcceptClass = 'bg-[#7bc5a4] text-white hover:bg-[#41a87b]';
+                        btnRejectClass = 'bg-rose-50 text-[#eb7a8f] border border-rose-200 hover:bg-rose-100';
+                    }
+
+                    const cardHtml = `
+                        <div id="prop_${seg.id}" class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm ${opacityClass} transition-all">
+                            <div class="mb-4">
+                                ${textChangeHtml}
+                            </div>
+                            <div class="text-[13px] text-slate-600 mb-5 bg-[#f8fafc] p-3 rounded-xl flex gap-2 items-start">
+                                <i class="fa-solid fa-comment-dots text-slate-400 mt-0.5"></i>
+                                <span>${escapeHTML(seg.reason || '修正提案')}</span>
+                            </div>
+                            <div class="flex gap-3">
+                                <button onclick="handleProposal('${seg.id}', 'accepted')" class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${btnAcceptClass}">
+                                    <i class="fa-solid fa-check"></i> 承認
+                                </button>
+                                <button onclick="handleProposal('${seg.id}', 'rejected')" class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${btnRejectClass}">
+                                    <i class="fa-solid fa-xmark"></i> 拒否
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    proposalsArea.innerHTML += cardHtml;
+                }
+            });
+
+            previewArea.innerHTML = previewHTML;
+        }
+
+        function handleProposal(id, action) {
+            const seg = currentSegments.find(s => s.id === id);
+            if (seg) {
+                seg.status = action;
+                renderCorrectionUI();
+            }
+        }
+
+        function acceptAllProposals() {
+            currentSegments.forEach(seg => {
+                if (seg.is_changed && seg.status === 'pending') {
+                    seg.status = 'accepted';
+                }
+            });
+            renderCorrectionUI();
+        }
+
+        function rejectAllProposals() {
+            currentSegments.forEach(seg => {
+                if (seg.is_changed && seg.status === 'pending') {
+                    seg.status = 'rejected';
+                }
+            });
+            renderCorrectionUI();
+        }
+
+        function scrollToProposal(id) {
+            const card = document.getElementById(`prop_${id}`);
+            const container = document.getElementById('proposalsArea');
+            if (card && container) {
+                container.scrollTo({
+                    top: card.offsetTop - container.offsetTop - 10,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function closeCorrectionModal() {
+            document.getElementById('aiCorrectionModal').classList.add('hidden');
+            document.getElementById('aiCorrectionModal').classList.remove('flex');
+        }
+
+        function acceptCorrection() {
+            let finalText = '';
+            currentSegments.forEach(seg => {
+                if (!seg.is_changed) {
+                    finalText += seg.text + ' ';
+                } else if (seg.status === 'accepted') {
+                    finalText += seg.text + ' ';
+                } else if (seg.status === 'rejected') {
+                    finalText += (seg.original_text || '') + ' ';
+                } else if (seg.status === 'pending') {
+                    finalText += (seg.original_text || '') + ' ';
+                }
+            });
+
+            const textarea = document.getElementById('scanResultArea');
+            textarea.value = finalText.trim();
+            showToast('本文を更新しました', 'success');
+            closeCorrectionModal();
+        }
+
+        // --- TTS機能 (ブラウザ標準のWeb Speech APIを使用) ---
+        let currentAccent = 'US';
+        
+        // 音声リストを確実に読み込むための処理（一部ブラウザ用）
+        if (typeof window.speechSynthesis !== 'undefined') {
+            window.speechSynthesis.getVoices();
+        }
+
+        function setAccent(accent) {
+            currentAccent = accent;
+            const btnUS = document.getElementById('accentBtnUS');
+            const btnGB = document.getElementById('accentBtnGB');
+
+            if (accent === 'US') {
+                btnUS.className = "flex-1 py-3.5 rounded-2xl font-bold text-sm border-2 border-purple-500 text-purple-700 bg-white shadow-sm transition-all flex items-center justify-center gap-2";
+                btnUS.innerHTML = '<span class="text-xs font-black">US</span> アメリカ英語';
+                
+                btnGB.className = "flex-1 py-3.5 rounded-2xl font-bold text-sm border-2 border-transparent bg-slate-50 text-slate-500 hover:bg-slate-100 transition-all flex items-center justify-center gap-2";
+                btnGB.innerHTML = '<span class="text-xs font-black opacity-50">GB</span> イギリス英語';
+            } else {
+                btnGB.className = "flex-1 py-3.5 rounded-2xl font-bold text-sm border-2 border-purple-500 text-purple-700 bg-white shadow-sm transition-all flex items-center justify-center gap-2";
+                btnGB.innerHTML = '<span class="text-xs font-black">GB</span> イギリス英語';
+                
+                btnUS.className = "flex-1 py-3.5 rounded-2xl font-bold text-sm border-2 border-transparent bg-slate-50 text-slate-500 hover:bg-slate-100 transition-all flex items-center justify-center gap-2";
+                btnUS.innerHTML = '<span class="text-xs font-black opacity-50">US</span> アメリカ英語';
+            }
+            
+            // 再生中の場合は一度停止する
+            if (window.speechSynthesis.speaking) {
+                stopTTS();
+            }
+        }
+
+        function getVoice(accent) {
+            const voices = window.speechSynthesis.getVoices();
+            const targetLang = accent === 'US' ? 'en-US' : 'en-GB';
+            
+            // 1. 指定されたアクセントに完全に一致する音声を探す
+            let voice = voices.find(v => v.lang === targetLang || v.lang === targetLang.replace('-', '_'));
+            
+            // 2. 見つからなければ、とにかく英語の音声を探す
+            if (!voice) {
+                voice = voices.find(v => v.lang.startsWith('en'));
+            }
+            return voice;
+        }
+
+        function playTTS() {
+            const text = document.getElementById('scanResultArea').value.trim();
+            if (!text) {
+                showToast('再生する英文がありません。', 'error');
+                return;
+            }
+
+            // 一時停止中の場合は再開
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+                return;
+            }
+
+            // すでに再生中の場合は最初から再生し直すためにリセット
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // 再生速度を少しゆっくりにする (デフォルトは 1.0)
+            utterance.rate = 0.85;
+            
+            // 端末のOSやブラウザに応じた最適な音声を設定
+            const voice = getVoice(currentAccent);
+            if (voice) {
+                utterance.voice = voice;
+            } else {
+                // 音声が見つからなかった場合のフォールバック
+                utterance.lang = currentAccent === 'US' ? 'en-US' : 'en-GB';
+            }
+            
+            // 再生終了時の処理
+            utterance.onend = function() {
+                // 必要であれば再生終了時のUIリセット処理などをここに記述
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function pauseTTS() {
+            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                window.speechSynthesis.pause();
+            }
+        }
+
+        function stopTTS() {
+            window.speechSynthesis.cancel();
+        }
+    </script>
+</body>
+</html>
